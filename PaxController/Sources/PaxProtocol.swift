@@ -77,6 +77,7 @@ enum PaxDynamicMode: UInt8, CaseIterable, Identifiable {
     case boost      = 0x01
     case efficiency = 0x02
     case stealth    = 0x03
+    case flavor     = 0x04
 
     var id: UInt8 { rawValue }
 
@@ -86,6 +87,7 @@ enum PaxDynamicMode: UInt8, CaseIterable, Identifiable {
         case .boost:      return "Boost"
         case .efficiency: return "Efficiency"
         case .stealth:    return "Stealth"
+        case .flavor:     return "Flavor"
         }
     }
 
@@ -95,6 +97,7 @@ enum PaxDynamicMode: UInt8, CaseIterable, Identifiable {
         case .boost:      return "flame.fill"
         case .efficiency: return "leaf.fill"
         case .stealth:    return "moon.fill"
+        case .flavor:     return "sparkles"
         }
     }
 }

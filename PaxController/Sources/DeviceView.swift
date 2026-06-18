@@ -1,7 +1,31 @@
 import SwiftUI
 
+private enum TemperatureUnit: String {
+    case celsius
+    case fahrenheit
+
+    var symbol: String {
+        switch self {
+        case .celsius: return "°C"
+        case .fahrenheit: return "°F"
+        }
+    }
+
+    func convert(celsius: Double) -> Double {
+        switch self {
+        case .celsius: return celsius
+        case .fahrenheit: return (celsius * 9 / 5) + 32
+        }
+    }
+}
+
 struct DeviceView: View {
     @EnvironmentObject var viewModel: PaxDeviceViewModel
+    @AppStorage("temperatureUnit") private var temperatureUnitRawValue = TemperatureUnit.celsius.rawValue
+
+    private var temperatureUnit: TemperatureUnit {
+        TemperatureUnit(rawValue: temperatureUnitRawValue) ?? .celsius
+    }
 
     var body: some View {
         NavigationView {
@@ -14,6 +38,20 @@ struct DeviceView: View {
             }
             .navigationTitle("Controller")
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        temperatureUnitRawValue = temperatureUnit == .celsius
+                            ? TemperatureUnit.fahrenheit.rawValue
+                            : TemperatureUnit.celsius.rawValue
+                    } label: {
+                        Text(temperatureUnit.symbol)
+                            .fontWeight(.semibold)
+                            .monospacedDigit()
+                    }
+                    .accessibilityLabel("Temperature unit")
+                    .accessibilityValue(temperatureUnit == .celsius ? "Celsius" : "Fahrenheit")
+                    .accessibilityHint("Switches between Celsius and Fahrenheit")
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     if viewModel.connectionState.isConnected {
                         Button {
@@ -173,7 +211,7 @@ struct DeviceView: View {
     private func tempDisplay(label: String, value: Double?) -> some View {
         VStack(spacing: 4) {
             if let t = value {
-                Text(String(format: "%.1f°C", t))
+                Text(formattedTemperature(t, decimals: 1))
                     .font(.title2.monospacedDigit())
                     .fontWeight(.semibold)
                     .foregroundColor(tempColor(t))
@@ -206,25 +244,25 @@ struct DeviceView: View {
 
                 // Slider row
                 HStack(spacing: 12) {
-                    Text("180°C")
+                    Text(formattedTemperature(180, decimals: 0))
                         .font(.caption2).foregroundColor(.secondary)
                     Slider(value: $viewModel.customTargetTempC, in: 180...215, step: 1)
                         .accentColor(.orange)
                         .disabled(!viewModel.paxServiceConfirmed)
-                    Text("215°C")
+                    Text(formattedTemperature(215, decimals: 0))
                         .font(.caption2).foregroundColor(.secondary)
                 }
 
                 // Current slider value + device target
                 HStack {
-                    Text(String(format: "%.0f°C", viewModel.customTargetTempC))
+                    Text(formattedTemperature(viewModel.customTargetTempC, decimals: 0))
                         .font(.title2.monospacedDigit())
                         .fontWeight(.semibold)
                         .foregroundColor(.orange)
                     Spacer()
                     if let t = viewModel.targetTempC {
                         VStack(alignment: .trailing, spacing: 1) {
-                            Text(String(format: "%.1f°C", t))
+                            Text(formattedTemperature(t, decimals: 1))
                                 .font(.subheadline.monospacedDigit())
                                 .foregroundColor(.secondary)
                             Text("on device")
@@ -253,7 +291,7 @@ struct DeviceView: View {
                         Button {
                             viewModel.setTemperature(preset)
                         } label: {
-                            Text(preset.label)
+                            Text(formattedTemperature(Double(preset.rawValue), decimals: 0))
                                 .font(.caption.monospacedDigit())
                                 .padding(.horizontal, 10)
                                 .padding(.vertical, 6)
@@ -308,6 +346,7 @@ struct DeviceView: View {
         case .boost:      return "Faster heat-up, higher oven temp."
         case .efficiency: return "Slower, cooler heating — conserves material."
         case .stealth:    return "Reduced vapour production and LED brightness."
+        case .flavor:     return "PAX Flavor dynamic heating profile."
         }
     }
 
@@ -398,6 +437,11 @@ struct DeviceView: View {
         if t >= 210 { return .red }
         if t >= 180 { return .orange }
         return .primary
+    }
+
+    private func formattedTemperature(_ celsius: Double, decimals: Int) -> String {
+        let converted = temperatureUnit.convert(celsius: celsius)
+        return String(format: "%.\(decimals)f%@", converted, temperatureUnit.symbol)
     }
 }
 

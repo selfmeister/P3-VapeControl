@@ -170,7 +170,9 @@ The device will respond with individual notification packets for each requested 
 
 3. **HeaterRanges (0x11)**: Format unknown. Possibly encodes min/max allowed temperature bounds.
 
-4. **DynamicMode (0x13)**: The meaning of each mode byte value is not fully documented. Known to be Pax 3 specific.
+4. **DynamicMode (0x13)**: Known PAX 3 values are Standard (`0x00`), Boost (`0x01`),
+   Efficiency (`0x02`), Stealth (`0x03`), and Flavor (`0x04`). Their exact heating
+   algorithms remain device-controlled and are not fully documented.
 
 5. **SupportedAttributes (0x18)**: Should be queried first to know which attributes a device supports, but has been omitted from the initial implementation for simplicity.
 
