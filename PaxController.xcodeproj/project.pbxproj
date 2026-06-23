@@ -289,11 +289,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6TN58RP29N;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = PaxController/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = me.personal.PaxController;
+				PRODUCT_BUNDLE_IDENTIFIER = de.marcomeissner.PaxController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "PaxController/Sources/PaxController-Bridging-Header.h";
@@ -309,11 +310,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6TN58RP29N;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = PaxController/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = me.personal.PaxController;
+				PRODUCT_BUNDLE_IDENTIFIER = de.marcomeissner.PaxController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "PaxController/Sources/PaxController-Bridging-Header.h";
